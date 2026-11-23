@@ -1,0 +1,1384 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Úlohy 23.11.2026</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+
+
+    <!-- =========================================================
+         OBRAZOVKA 0: PŘIHLÁŠENÍ
+    ========================================================== -->
+    <section id="view-login" class="view-screen active">
+      <header class="page-header">
+        <div class="step-pill">23. 11. 2026</div>
+        <h1 class="page-title">Úlohy 23.11.2026</h1>
+        <p class="page-subtitle">Přihlaste se prosím, aby se řešení uložilo k Vašemu jménu</p>
+      </header>
+
+
+      <div class="glass-card" id="login-card">
+        <form id="login-form" novalidate>
+          <div class="field-group">
+            <label class="field-label" for="login-username">
+              Zadejte uživatelské jméno ve formátu <strong>prijmeni.jmeno</strong>
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="login-username"
+                class="ios-input"
+                placeholder="prijmeni.jmeno"
+                autocomplete="off"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+              />
+            </div>
+          </div>
+
+
+          <div class="field-group">
+            <label class="field-label" for="login-password">
+              Zadejte heslo ve formátu <strong>jmeno-roknarozeni-mesicnarozeni-obec/mesto-cislodomu</strong>
+            </label>
+            <span class="field-example">Např.: Josef-2024-kveten-Troubky-105</span>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="login-password"
+                class="ios-input has-toggle"
+                placeholder="Zadejte heslo"
+                autocomplete="off"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+              />
+              <button
+                type="button"
+                id="toggle-password"
+                class="eye-toggle"
+                aria-label="Zobrazit nebo skrýt heslo"
+                title="Zobrazit / skrýt heslo"
+              >
+                <!-- Otevřené oko -->
+                <svg id="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <!-- Přeškrtnuté oko -->
+                <svg id="eye-closed" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                  <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c6.5 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                  <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3.5 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                  <line x1="2" x2="22" y1="2" y2="22"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+
+          <div id="login-error" class="alert-box alert-error hidden">
+            Chyba: Nesprávné údaje. Zkuste to znovu.
+          </div>
+
+
+          <button type="submit" id="btn-login" class="ios-btn ios-btn-primary">
+            Odeslat
+          </button>
+        </form>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         OBRAZOVKA 1: PŘEHLED ÚLOH (DASHBOARD)
+    ========================================================== -->
+    <section id="view-dashboard" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Přehled dne</div>
+        <h1 class="page-title">Dobrý den, Aleno!</h1>
+        <p class="page-subtitle">Přejděte na úlohu:</p>
+      </header>
+
+
+      <!-- Kategorie 1: Denní úloha (vždy vyřízeno) -->
+      <article class="task-card completed" aria-disabled="true">
+        <div class="task-card-top">
+          <span class="task-badge">1. DENNÍ ÚLOHA</span>
+          <span class="status-done">✓ Vyřízeno</span>
+        </div>
+        <h2 class="task-name">Zákaz vstupu.</h2>
+        <div class="task-meta">
+          <div class="task-meta-item"><strong>Délka:</strong> 1 hodina, 45 minut</div>
+          <div class="task-meta-item"><strong>Možnost zkrátit:</strong> Na požádání</div>
+        </div>
+        <div class="task-reward-row">
+          <span class="reward-pill green">+90 yardů</span>
+        </div>
+      </article>
+
+
+      <!-- Kategorie 2: Noční úloha (dynamicky přepínaná podle DB) -->
+      <article id="card-night-task" class="task-card">
+        <div class="task-card-top">
+          <span class="task-badge">2. NOČNÍ ÚLOHA</span>
+          <span id="night-done-badge" class="status-done hidden">✓ Vyřízeno</span>
+        </div>
+        <h2 class="task-name">Hledání produktů a objednávka</h2>
+        <div class="task-meta">
+          <div class="task-meta-item"><strong>Délka:</strong> 30 - 45 minut</div>
+          <div class="task-meta-item"><strong>Možnost zkrátit:</strong> Dle rychlosti vypracování, nepřeskočitelná 1/1</div>
+        </div>
+        <div class="task-reward-row">
+          <span id="night-reward-pill" class="reward-pill">+ 150 yardů</span>
+        </div>
+        <div id="night-start-wrap" style="margin-top: 14px;">
+          <button type="button" id="btn-start-night" class="ios-btn ios-btn-primary">
+            Začít hned
+          </button>
+        </div>
+      </article>
+
+
+      <!-- Procenta pod oběma kategoriemi -->
+      <div class="progress-box">
+        <div class="progress-track">
+          <div id="dashboard-progress-fill" class="progress-fill" style="width: 50%;"></div>
+        </div>
+        <p id="dashboard-progress-text" class="progress-text">
+          Dnes: 50 %. Dokončete poslední úlohu pro získání 100 %
+        </p>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         KROK 1: ZADÁNÍ NOČNÍ ÚLOHY
+    ========================================================== -->
+    <section id="view-step-1" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Krok 1 z 9</div>
+        <h1 class="page-title">Zadání noční úlohy</h1>
+        <p class="page-subtitle">Projděte si zadání úlohy</p>
+      </header>
+
+
+      <div class="glass-card">
+        <p class="body-text">
+          Použijte internetový obchod <strong>datart.cz</strong>. Výsledkem budou <strong>2 objednávky</strong>. Výdejní místa a další údaje zadejte dle zadání v dalších krocích.
+        </p>
+        <div class="alert-box alert-info" style="margin-bottom: 20px;">
+          <strong>Platba:</strong> QR kódem, platím já (Alena má aktivováno). – upřesněno u objednávek.
+        </div>
+        <button type="button" id="btn-step-1" class="ios-btn ios-btn-primary">Další</button>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         KROK 2: OBJEDNÁVKA 1 - OBSAH KOŠÍKU
+    ========================================================== -->
+    <section id="view-step-2" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Krok 2 z 9</div>
+        <h1 class="page-title">2. NOČNÍ ÚLOHA</h1>
+        <p class="page-subtitle">Objednávka 1 - Obsah košíku</p>
+      </header>
+
+
+      <div class="glass-card">
+        <div class="alert-box alert-warning">
+          Do košíku vyhledejte a vložte následující produkty (<strong>dělejte to v anonymním okně / jiném prohlížeči, KDE NEJSTE PŘIHLÁŠENA KE SVÉMU ÚČTU!</strong>)
+        </div>
+
+
+        <ul class="product-list" id="order1-products-step2"></ul>
+
+
+        <p class="body-text" style="font-size: 14.5px; color: var(--text-secondary);">
+          U všech produktů zadáváte pouze <strong>jeden kus</strong>. Vložte uvedené produkty do košíku. Poté klikněte na <strong>Další</strong> na této stránce.
+        </p>
+
+
+        <button type="button" id="btn-step-2" class="ios-btn ios-btn-primary">Další</button>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         KROK 3: OBJEDNÁVKA 1 - OVĚŘENÍ KOŠÍKU
+    ========================================================== -->
+    <section id="view-step-3" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Krok 3 z 9</div>
+        <h1 class="page-title">2. NOČNÍ ÚLOHA</h1>
+        <p class="page-subtitle">Objednávka 1 - Ověření košíku</p>
+      </header>
+
+
+      <div class="glass-card">
+        <p class="body-text">
+          Pojďme ověřit, že máte v košíku správné produkty a ve správném počtu. Zadejte zde aktuální cenu košíku komplet, tak jak máte nyní košík (tj. bez dopravy a dobírky) – pouze aktuální hodnota košíku:
+        </p>
+
+
+        <div class="field-group">
+          <input
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            id="input-price-1"
+            class="ios-input"
+            placeholder="Např. 500"
+            autocomplete="off"
+          />
+          <div id="price1-msg" class="field-msg neutral">Zadejte cenu z košíku</div>
+        </div>
+
+
+        <div id="price1-error-box" class="alert-box alert-error hidden">
+          <p style="margin: 0 0 10px;">
+            V košíku nemáte správné produkty. Ujistěte se prosím, že v košíku nemáte nic navíc. Od každého produktu vložte jen jeden kus. Při vyhledání na datart.cz je to vždy první produkt ve výsledcích. Zadejte pouze cenu bez dopravy a dobírky, tj. hned po vložení produktů do košíku.
+          </p>
+          <p style="margin: 0 0 10px;">
+            <strong>Důležité: Ujistěte se, že to neobjednáváte pod svým účtem. Jinak se mohou používat VIP slevy, což cenu ovlivňuje. Odhlaste se od svého účtu, nebo otevřete anonymní okno.</strong>
+          </p>
+          <p style="margin: 0 0 12px;">
+            Pokud máte potíže, obraťte se na Adama, který má řešení.
+          </p>
+          <ul class="product-list" id="order1-products-error" style="margin: 0;"></ul>
+        </div>
+
+
+        <button type="button" id="btn-step-3" class="ios-btn ios-btn-primary hidden">Další</button>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         KROK 4: OBJEDNÁVKA 1 - OBJEDNÁNÍ
+    ========================================================== -->
+    <section id="view-step-4" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Krok 4 z 9</div>
+        <h1 class="page-title">2. NOČNÍ ÚLOHA</h1>
+        <p class="page-subtitle">Objednávka 1 - Objednání</p>
+      </header>
+
+
+      <div class="glass-card">
+        <p class="body-text">
+          Pokračujte v košíku na datart v objednání. Pro doručení zadejte tyto údaje:
+        </p>
+
+
+        <div class="kv-list">
+          <div class="kv-row">
+            <div class="kv-content">
+              <div class="kv-key">Jméno a příjmení</div>
+              <div class="kv-val">Jiří Hopluch</div>
+            </div>
+            <button type="button" class="copy-btn" data-copy="Jiří Hopluch">Kopírovat</button>
+          </div>
+
+
+          <div class="kv-row">
+            <div class="kv-content">
+              <div class="kv-key">Telefon</div>
+              <div class="kv-val">731855083</div>
+            </div>
+            <button type="button" class="copy-btn" data-copy="731855083">Kopírovat</button>
+          </div>
+
+
+          <div class="kv-row">
+            <div class="kv-content">
+              <div class="kv-key">E-mail</div>
+              <div class="kv-val">osobniucet305@gmail.com</div>
+            </div>
+            <button type="button" class="copy-btn" data-copy="osobniucet305@gmail.com">Kopírovat</button>
+          </div>
+
+
+          <div class="kv-row">
+            <div class="kv-content">
+              <div class="kv-key">Výdejní místo</div>
+              <div class="kv-val">(Pošta Charváty) Charváty č.p.3, 78375. <span style="color: var(--ios-red);">Ne potraviny!</span></div>
+            </div>
+            <button type="button" class="copy-btn" data-copy="Charváty č.p.3, 78375">Kopírovat</button>
+          </div>
+
+
+          <div class="kv-row">
+            <div class="kv-content">
+              <div class="kv-key">Platba</div>
+              <div class="kv-val">QR platba - rychlý bankovní převod</div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="alert-box alert-error">
+          <strong>PŘI OBJEDNÁVÁNÍ SE UJISTĚTE, ŽE JI NEOBJEDNÁVÁTE POD SVÝM ÚČTEM. JINAK SE NEMUSÍ POUŽÍT SPRÁVNÉ ÚDAJE. OBJEDNÁVEJTE JI V JINÉM PROHLÍŽEČI / ANONYMNÍM OKNĚ NEBO PO ODHLÁŠENÍ OD SVÉHO DATART ÚČTU.</strong>
+        </div>
+
+
+        <div class="alert-box alert-info">
+          Objednávku nakonec potvrďte a odešlete. <strong>Proveďte screen nebo kopii čísla objednávky</strong>, které Vám stránka ukáže. Budete to potřebovat.
+        </div>
+
+
+        <button type="button" id="btn-step-4" class="ios-btn ios-btn-primary">Další</button>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         KROK 5: OBJEDNÁVKA 1 - DOKONČENÍ
+    ========================================================== -->
+    <section id="view-step-5" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Krok 5 z 9</div>
+        <h1 class="page-title">2. NOČNÍ ÚLOHA</h1>
+        <p class="page-subtitle">Objednávka 1 - Dokončení</p>
+      </header>
+
+
+      <div class="glass-card">
+        <div class="field-group">
+          <label class="field-label" for="input-order1-num">
+            Zadejte číslo objednávky, které Vám zobrazila stránka:
+          </label>
+          <input
+            type="text"
+            id="input-order1-num"
+            class="ios-input"
+            placeholder="Zadejte číslo objednávky"
+            autocomplete="off"
+          />
+        </div>
+
+
+        <button type="button" id="btn-step-5" class="ios-btn ios-btn-primary">
+          Začít objednávku 2
+        </button>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         KROK 6: OBJEDNÁVKA 2 - ZADÁNÍ
+    ========================================================== -->
+    <section id="view-step-6" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Krok 6 z 9</div>
+        <h1 class="page-title">2. NOČNÍ ÚLOHA</h1>
+        <p class="page-subtitle">Objednávka 2 - Zadání</p>
+      </header>
+
+
+      <div class="glass-card">
+        <div class="alert-box alert-success">
+          <strong>Výborně. První objednávku máte hotovou.</strong>
+        </div>
+        <p class="body-text">
+          Nyní následuje druhá. Můžete používat AI, pokud si nebudete vědět rady. Objednávat můžete pod jakýmkoli a klidně i svým účtem. Během této objednávky budete na <strong>datart.cz</strong> pracovat s vyhledávačem, kategoriemi i filtry.
+        </p>
+
+
+        <button type="button" id="btn-step-6" class="ios-btn ios-btn-primary">Další</button>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         KROK 7: OBJEDNÁVKA 2 - OBSAH KOŠÍKU
+    ========================================================== -->
+    <section id="view-step-7" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Krok 7 z 9</div>
+        <h1 class="page-title">2. NOČNÍ ÚLOHA</h1>
+        <p class="page-subtitle">Objednávka 2 - Obsah košíku</p>
+      </header>
+
+
+      <div class="glass-card">
+        <p class="body-text">
+          Vyhledejte následující produkty a vložte je do košíku v uvedeném počtu (po 1 ks). Využijte kategorie, filtry, vyhledání na datartu, případně AI.
+        </p>
+
+
+        <div id="order2-guides-step7"></div>
+
+
+        <button type="button" id="btn-step-7" class="ios-btn ios-btn-primary" style="margin-top: 8px;">Další</button>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         KROK 8: OBJEDNÁVKA 2 - OVĚŘENÍ SPRÁVNOSTI
+    ========================================================== -->
+    <section id="view-step-8" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Krok 8 z 9</div>
+        <h1 class="page-title">2. NOČNÍ ÚLOHA</h1>
+        <p class="page-subtitle">Objednávka 2 - Ověření správnosti</p>
+      </header>
+
+
+      <div class="glass-card">
+        <p class="body-text">
+          Zadejte cenu z košíku. Bez dopravy a platby, pouze cenu v košíku po vložení všech produktů.
+        </p>
+
+
+        <div class="field-group">
+          <input
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            id="input-price-2"
+            class="ios-input"
+            placeholder="Zadejte cenu v Kč"
+            autocomplete="off"
+          />
+          <div id="price2-msg" class="field-msg neutral">Zadejte cenu z košíku</div>
+          <div id="price2-vip-note" class="alert-box alert-info hidden" style="margin-top: 10px; margin-bottom: 0;">
+            <strong>Objednáváte s VIP účtem. V pořádku.</strong>
+          </div>
+        </div>
+
+
+        <div id="price2-error-box" class="alert-box alert-error hidden">
+          <p style="margin: 0 0 12px;">
+            V košíku nemáte správné produkty. Ujistěte se prosím, že v košíku nemáte nic navíc a od každého produktu máte pouze jeden kus. Níže naleznete přesné názvy / kódy k vyhledání na Datartu:
+          </p>
+          <div id="order2-guides-error"></div>
+        </div>
+
+
+        <button type="button" id="btn-step-8" class="ios-btn ios-btn-primary hidden">Další</button>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         KROK 9: OBJEDNÁVKA 2 - OBJEDNÁNÍ + FORMULÁŘ
+    ========================================================== -->
+    <section id="view-step-9" class="view-screen">
+      <header class="page-header">
+        <div class="step-pill">Krok 9 z 9</div>
+        <h1 class="page-title">2. NOČNÍ ÚLOHA</h1>
+        <p class="page-subtitle">Objednávka 2 - Objednání</p>
+      </header>
+
+
+      <div class="glass-card">
+        <p class="body-text">
+          Proveďte objednávku. Dokončete ji. Dejte si ji na jakékoli jméno a výdejní místo, vše dle toho, jak Vám to vyhovuje.
+        </p>
+
+
+        <div class="alert-box alert-warning">
+          <strong>Varování:</strong> Tuto objednávku vyzvednete Vy! Proto zvolte vhodné výdejní místo.<br>
+          <strong>Kdy ji vyzvednete:</strong> Pátek 27.11.2026.<br>
+          <strong>Pozor:</strong> Nevybírejte výdejní boxy, jelikož ty mají omezenou úložní dobu 24–48 hodin. Vyberte si klasická výdejní místa ve Vašem okolí.
+        </div>
+
+
+        <div class="alert-box alert-info">
+          <strong>Platba:</strong> na DOBÍRKU, dobírku proplatím (máte aktivováno).
+        </div>
+
+
+        <hr class="ios-divider" />
+
+
+        <h2 style="margin: 0 0 16px; font-size: 17.5px; font-weight: 700;">
+          Vyplňte prosím formulář dle toho, co jste vyplnila při objednávce:
+        </h2>
+
+
+        <form id="order2-form" novalidate>
+          <!-- Jméno a Příjmení -->
+          <div class="field-group">
+            <label class="field-label" for="f-name"><strong>Jméno a Příjmení:</strong></label>
+            <input type="text" id="f-name" class="ios-input" placeholder="Zadejte jméno a příjmení" autocomplete="name" />
+            <div id="err-name" class="field-msg error"></div>
+          </div>
+
+
+          <!-- Telefon -->
+          <div class="field-group">
+            <label class="field-label" for="f-phone"><strong>Telefon:</strong></label>
+            <div class="phone-group" id="phone-group-wrap">
+              <span class="phone-prefix">+420</span>
+              <input
+                type="text"
+                inputmode="numeric"
+                id="f-phone"
+                class="ios-input"
+                placeholder="777 999 000"
+                autocomplete="tel-national"
+              />
+            </div>
+            <div id="err-phone" class="field-msg error"></div>
+          </div>
+
+
+          <!-- E-mail -->
+          <div class="field-group">
+            <label class="field-label" for="f-email"><strong>E-mail:</strong></label>
+            <input
+              type="email"
+              id="f-email"
+              class="ios-input"
+              placeholder="jmeno@domena.cz"
+              autocomplete="email"
+              autocapitalize="none"
+            />
+            <div id="err-email" class="field-msg error"></div>
+          </div>
+
+
+          <!-- Výdejní místo -->
+          <div class="field-group">
+            <label class="field-label" for="f-pickup"><strong>Výdejní místo (kde, jaké):</strong></label>
+            <input type="text" id="f-pickup" class="ios-input" placeholder="Např. Zásilkovna / Pošta a adresa" />
+            <div id="err-pickup" class="field-msg error"></div>
+          </div>
+
+
+          <!-- Celková cena -->
+          <div class="field-group">
+            <label class="field-label" for="f-total"><strong>Celková cena:</strong></label>
+            <input type="text" id="f-total" class="ios-input" placeholder="Např. 299 Kč" />
+            <div id="err-total" class="field-msg error"></div>
+          </div>
+
+
+          <hr class="ios-divider" />
+
+
+          <!-- Číslo objednávky (přesně 10 číslic) -->
+          <div class="field-group">
+            <label class="field-label" for="f-ordernum"><strong>Číslo objednávky:</strong></label>
+            <span class="field-example">Např.: 4029708796</span>
+            <input
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              id="f-ordernum"
+              class="ios-input"
+              placeholder="Číslo objednávky"
+              autocomplete="off"
+            />
+            <div id="err-ordernum" class="field-msg error"></div>
+          </div>
+
+
+          <div id="form-submit-hint" class="field-msg neutral" style="text-align: center; margin-bottom: 12px; color: var(--text-muted);">
+            Vyplňte správně všechna pole pro odemčení tlačítka Dokončit.
+          </div>
+
+
+          <button type="submit" id="btn-finish" class="ios-btn ios-btn-success" disabled>
+            Dokončit
+          </button>
+        </form>
+      </div>
+    </section>
+
+
+  </main>
+
+
+  <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+
+
+  <script>
+    /* =========================================================================
+       1. FIREBASE KONFIGURACE
+    ========================================================================= */
+    const firebaseConfig = {
+      apiKey: "AIzaSyDRh9sYac9VC08GHPlIC-Nv27bzdakF_kY",
+      authDomain: "rl-body-2311.firebaseapp.com",
+      databaseURL: "https://rl-body-2311-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "rl-body-2311",
+      storageBucket: "rl-body-2311.firebasestorage.app",
+      messagingSenderId: "990223516118",
+      appId: "1:990223516118:web:7b68471192ec48f15b6477"
+    };
+
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+
+    /* =========================================================================
+       2. DATA PRODUKTŮ PRO VÝPISY
+    ========================================================================= */
+    const ORDER1_PRODUCTS = [
+      { label: "Kabel PremiumCord síťový 230V k počítači 0,5 m (kpsp05)", copy: "Kabel PremiumCord síťový 230V k počítači 0,5 m (kpsp05)" },
+      { label: "CB-PWRC13-18", copy: "CB-PWRC13-18" },
+      { label: "AK-PC-01A", copy: "AK-PC-01A" },
+      { label: "Kabel C-Tech síťový VDE 220/230V napájecí, 3 m (CB-PWRC13-3)", copy: "Kabel C-Tech síťový VDE 220/230V napájecí, 3 m (CB-PWRC13-3)" },
+      { label: "Kabel Akyga napájecí 230V, tří pólový, 5 m (AK-PC-05A) černý", copy: "Kabel Akyga napájecí 230V, tří pólový, 5 m (AK-PC-05A) černý" }
+    ];
+
+
+    const ORDER2_GUIDES = [
+      {
+        num: 1,
+        html: `
+          <p>Vyhledejte <strong>„kabel“</strong>. Filtr nastavte takto:</p>
+          <div class="filter-grid">
+            <div><strong>Dostupnost:</strong> Ihned k odeslání</div>
+            <div><strong>Stav zboží:</strong> Nové</div>
+            <div><strong>Délka:</strong> 0m - 10m</div>
+            <div><strong>Barva:</strong> černá</div>
+            <div><strong>Typ kabelu:</strong> video</div>
+            <div><strong>Značky:</strong> WG</div>
+          </div>
+          <p>Potvrďte filtr. Výsledek bude <strong>5 kabelů</strong>. Pokud máte jiný počet výsledků, máte něco jiného ve filtru.</p>
+          <p>Seřaďte od nejlevnějších. Vyhledejte nejlevnější kabel, který má délku <strong>1,8 metrů</strong> a cenu <strong>méně než 40 Kč</strong>.</p>
+        `,
+        exactSearch: "Kabel WG Mini Display Port/Mini Display Port, 1,8m (9694)"
+      },
+      {
+        num: 2,
+        html: `
+          <p>Využijte kategorii:</p>
+          <div class="breadcrumb-pill">Katalog produktů &gt; Příslušenství &gt; Příslušenství k PC a notebookům &gt; Kabely pro PC &gt; Napájecí &gt; Pro počítače</div>
+          <p>Vyhledejte produkt s popisem <em>„napájecí kabel • 3pólová koncovka • max. proud 10 A • průřez vodiče 0,75 mm • délka kabelu 1,8 m • zástrčka do zdi: vidlice 230 V UNISCHUKO • zástrčka do zdroje: vidlice C13 • VDE certifikace“</em> s hodnocením <strong>4,7 ☆</strong>.</p>
+        `,
+        exactSearch: "CB-PWRC13-18"
+      },
+      {
+        num: 3,
+        html: `
+          <p>Vyhledejte <strong>„napajeci kabel“</strong> a v nabídce, co se zobrazí, klikněte na <strong>Pro počítače</strong>. Seřaďte od nejlevnějších. Použijte filtr:</p>
+          <div class="filter-grid">
+            <div><strong>Značky:</strong> Akyga</div>
+            <div><strong>Z konektoru:</strong> 230V</div>
+            <div><strong>Délka kabelu:</strong> 1,5m-2m</div>
+          </div>
+          <p>Jako výsledek budou <strong>2 kabely</strong>. Podívejte se na oba a vyberte ten, který má v popisu uveden <strong>maximální proud 10 A</strong>.</p>
+        `,
+        exactSearch: "AK-PC-01A"
+      },
+      {
+        num: 4,
+        html: `
+          <p>Na Datartu najděte jakkoli přes kategorie, filtry či hledání popsaný produkt:</p>
+          <div class="filter-grid">
+            <div><strong>Značka:</strong> PremiumCord</div>
+            <div><strong>Využití:</strong> Jde o síťový kabel</div>
+            <div><strong>Cena:</strong> Max. 91 Kč</div>
+          </div>
+        `,
+        exactSearch: "kpsp05"
+      }
+    ];
+
+
+    let order2UsedVip = false;
+
+
+    /* =========================================================================
+       3. POMOCNÉ FUNKCE (RENDER, KOPÍROVÁNÍ, PŘEPÍNÁNÍ OBRAZOVEK)
+    ========================================================================= */
+    function showScreen(screenId) {
+      document.querySelectorAll(".view-screen").forEach(el => el.classList.remove("active"));
+      const target = document.getElementById(screenId);
+      if (target) {
+        target.classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+
+
+    function renderOrder1Products(containerId) {
+      const ul = document.getElementById(containerId);
+      ul.innerHTML = ORDER1_PRODUCTS.map((item, i) => `
+        <li class="product-item">
+          <div class="product-item-left">
+            <span class="product-num">${i + 1}</span>
+            <span class="product-name">${item.label}</span>
+          </div>
+          <button type="button" class="copy-btn" data-copy="${item.copy}">Kopírovat</button>
+        </li>
+      `).join("");
+    }
+
+
+    function renderOrder2Guides(containerId, showExactHints) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = ORDER2_GUIDES.map(item => `
+        <div class="guide-card">
+          <div class="guide-header">
+            <span class="product-num">${item.num}</span>
+            <span class="guide-title">Produkt ${item.num}</span>
+          </div>
+          <div class="guide-body">
+            ${item.html}
+            ${showExactHints ? `
+              <div class="exact-hint">
+                <div><strong>Hledejte na Datartu přesně:</strong><br>${item.num}. ${item.exactSearch}</div>
+                <button type="button" class="copy-btn" data-copy="${item.exactSearch}">Kopírovat</button>
+              </div>
+            ` : ""}
+          </div>
+        </div>
+      `).join("");
+    }
+
+
+    // Delegované kopírování do schránky
+    document.addEventListener("click", async (e) => {
+      const btn = e.target.closest(".copy-btn");
+      if (!btn) return;
+      const text = btn.getAttribute("data-copy");
+      try {
+        await navigator.clipboard.writeText(text);
+        const orig = btn.textContent;
+        btn.textContent = "Zkopírováno ✓";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.classList.remove("copied");
+        }, 1600);
+      } catch {
+        // Fallback pro starší prohlížeče
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        btn.textContent = "Zkopírováno ✓";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = "Kopírovat";
+          btn.classList.remove("copied");
+        }, 1600);
+      }
+    });
+
+
+    // Vykreslení seznamů při načtení stránky
+    renderOrder1Products("order1-products-step2");
+    renderOrder1Products("order1-products-error");
+    renderOrder2Guides("order2-guides-step7", false);
+    renderOrder2Guides("order2-guides-error", true);
+
+
+    /* =========================================================================
+       4. AKTUALIZACE DASHBOARDU DLE DATABÁZE
+    ========================================================================= */
+    function renderDashboard(stav) {
+      const isNightDone = Boolean(stav && stav.nocni_uloha_hotovo);
+      const procenta = isNightDone ? 100 : (stav && typeof stav.procenta === "number" ? stav.procenta : 50);
+
+
+      const nightCard = document.getElementById("card-night-task");
+      const nightBadge = document.getElementById("night-done-badge");
+      const nightReward = document.getElementById("night-reward-pill");
+      const nightStartWrap = document.getElementById("night-start-wrap");
+      const fill = document.getElementById("dashboard-progress-fill");
+      const progressText = document.getElementById("dashboard-progress-text");
+
+
+      fill.style.width = procenta + "%";
+
+
+      if (isNightDone) {
+        nightCard.classList.add("completed");
+        nightCard.setAttribute("aria-disabled", "true");
+        nightBadge.classList.remove("hidden");
+        nightReward.textContent = "+150 yardů";
+        nightReward.classList.add("green");
+        nightStartWrap.classList.add("hidden");
+        progressText.textContent = "Dnes: 100 %. Všechny dnešní úlohy jsou splněny!";
+      } else {
+        nightCard.classList.remove("completed");
+        nightCard.removeAttribute("aria-disabled");
+        nightBadge.classList.add("hidden");
+        nightReward.textContent = "+ 150 yardů";
+        nightReward.classList.remove("green");
+        nightStartWrap.classList.remove("hidden");
+        progressText.textContent = `Dnes: ${procenta} %. Dokončete poslední úlohu pro získání 100 %`;
+      }
+    }
+
+
+    async function ensureInitialStateInDb() {
+      const snap = await db.ref("stav").once("value");
+      if (!snap.exists()) {
+        const defaultState = {
+          denni_uloha_hotovo: true,
+          nocni_uloha_hotovo: false,
+          procenta: 50,
+          ignorovat_kroky: false
+        };
+        await db.ref("stav").set(defaultState);
+        return defaultState;
+      }
+      return snap.val();
+    }
+
+
+    // Uložení dokončeného kroku do složky "kroky"
+    async function saveStepCompleted(stepNumber, extraData = {}) {
+      const now = new Date().toLocaleString("cs-CZ");
+      const payload = {
+        [`krok_${stepNumber}`]: true,
+        [`krok_${stepNumber}_cas`]: now,
+        posledni_dokonceny_krok: stepNumber,
+        ...extraData
+      };
+      await db.ref("kroky").update(payload);
+    }
+
+
+    /* =========================================================================
+       5. PŘIHLÁŠENÍ A OBNOVA ROZDĚLANÉHO KROKU
+    ========================================================================= */
+    const pwdInput = document.getElementById("login-password");
+    const eyeOpen = document.getElementById("eye-open");
+    const eyeClosed = document.getElementById("eye-closed");
+
+
+    document.getElementById("toggle-password").addEventListener("click", () => {
+      const isPassword = pwdInput.type === "password";
+      pwdInput.type = isPassword ? "text" : "password";
+      eyeOpen.classList.toggle("hidden", isPassword);
+      eyeClosed.classList.toggle("hidden", !isPassword);
+    });
+
+
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("btn-login");
+      const errBox = document.getElementById("login-error");
+      const loginCard = document.getElementById("login-card");
+
+
+      const enteredUser = document.getElementById("login-username").value;
+      const enteredPass = pwdInput.value;
+
+
+      errBox.classList.add("hidden");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner white"></span> Ověřuji údaje...';
+
+
+      try {
+        const authSnap = await db.ref("auth").once("value");
+        const authData = authSnap.val();
+
+
+        if (!authData || !authData.username || !authData.password) {
+          errBox.textContent = "Chyba: V databázi nejsou inicializovány přihlašovací údaje. Nejprve spusťte login.html.";
+          errBox.classList.remove("hidden");
+          return;
+        }
+
+
+        // Přesná shoda do posledního znaku
+        if (enteredUser === authData.username && enteredPass === authData.password) {
+          const stav = await ensureInitialStateInDb();
+          renderDashboard(stav);
+
+
+          // Pokud je úloha hotová nebo se mají kroky ignorovat -> vždy zobraz dashboard (100 %)
+          if (stav.ignorovat_kroky || stav.nocni_uloha_hotovo) {
+            showScreen("view-dashboard");
+            return;
+          }
+
+
+          // Kontrola složky kroky pro okamžitý návrat na správný krok
+          const krokySnap = await db.ref("kroky").once("value");
+          if (krokySnap.exists()) {
+            const kroky = krokySnap.val();
+            const lastDone = Number(kroky.posledni_dokonceny_krok || 0);
+            const nextStep = lastDone + 1;
+
+
+            if (nextStep >= 2 && nextStep <= 9) {
+              showScreen(`view-step-${nextStep}`);
+              return;
+            }
+          }
+
+
+          showScreen("view-dashboard");
+        } else {
+          errBox.textContent = "Chyba: Nesprávné údaje. Zkuste to znovu.";
+          errBox.classList.remove("hidden");
+          loginCard.classList.remove("shake");
+          void loginCard.offsetWidth;
+          loginCard.classList.add("shake");
+        }
+      } catch (err) {
+        console.error(err);
+        errBox.textContent = "Chyba připojení k databázi. Zkuste to prosím znovu.";
+        errBox.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Odeslat";
+      }
+    });
+
+
+    /* =========================================================================
+       6. PŘECHODY MEZI KROKY
+    ========================================================================= */
+    // Dashboard -> Krok 1
+    document.getElementById("btn-start-night").addEventListener("click", () => {
+      showScreen("view-step-1");
+    });
+
+
+    // Krok 1 -> Krok 2 (vytvoří složku kroky + zapíše krok 1)
+    document.getElementById("btn-step-1").addEventListener("click", async function () {
+      this.disabled = true;
+      await saveStepCompleted(1);
+      this.disabled = false;
+      showScreen("view-step-2");
+    });
+
+
+    // Krok 2 -> Krok 3
+    document.getElementById("btn-step-2").addEventListener("click", async function () {
+      this.disabled = true;
+      await saveStepCompleted(2);
+      this.disabled = false;
+      showScreen("view-step-3");
+    });
+
+
+    /* =========================================================================
+       7. KROK 3: OVĚŘENÍ CENY KOŠÍKU 1 (PŘESNĚ 426)
+    ========================================================================= */
+    const inputPrice1 = document.getElementById("input-price-1");
+    const price1Msg = document.getElementById("price1-msg");
+    const price1ErrBox = document.getElementById("price1-error-box");
+    const btnStep3 = document.getElementById("btn-step-3");
+
+
+    inputPrice1.addEventListener("input", () => {
+      // Přísné povolení pouze číslic (ignoruje písmena, mezery, +- apod.)
+      const clean = inputPrice1.value.replace(/[^0-9]/g, "");
+      if (inputPrice1.value !== clean) {
+        inputPrice1.value = clean;
+      }
+
+
+      inputPrice1.classList.remove("input-error", "input-valid");
+      price1ErrBox.classList.add("hidden");
+      btnStep3.classList.add("hidden");
+
+
+      if (clean.length === 0) {
+        price1Msg.className = "field-msg neutral";
+        price1Msg.textContent = "Zadejte cenu z košíku";
+      } else if (clean.length < 3) {
+        price1Msg.className = "field-msg neutral";
+        price1Msg.textContent = "Pokračujte v psaní...";
+      } else if (clean === "445") {
+        inputPrice1.classList.add("input-valid");
+        price1Msg.className = "field-msg success";
+        price1Msg.textContent = "✓ V košíku máte správné produkty za správnou cenu. Můžete pokračovat.";
+        btnStep3.classList.remove("hidden");
+      } else {
+        inputPrice1.classList.add("input-error");
+        price1Msg.className = "field-msg error";
+        price1Msg.textContent = "";
+        price1ErrBox.classList.remove("hidden");
+      }
+    });
+
+
+    btnStep3.addEventListener("click", async function () {
+      this.disabled = true;
+      await saveStepCompleted(3);
+      this.disabled = false;
+      showScreen("view-step-4");
+    });
+
+
+    // Krok 4 -> Krok 5
+    document.getElementById("btn-step-4").addEventListener("click", async function () {
+      this.disabled = true;
+      await saveStepCompleted(4);
+      this.disabled = false;
+      showScreen("view-step-5");
+    });
+
+
+    // Krok 5 -> Krok 6 (uloží číslo objednávky 1 - libovolný text)
+    document.getElementById("btn-step-5").addEventListener("click", async function () {
+      const order1Number = document.getElementById("input-order1-num").value;
+      this.disabled = true;
+      this.innerHTML = '<span class="spinner white"></span> Ukládám...';
+      try {
+        await db.ref("objednavky/objednavka1").set({
+          cislo_objednavky: order1Number,
+          cas_ulozeni: new Date().toLocaleString("cs-CZ")
+        });
+        await saveStepCompleted(5);
+        showScreen("view-step-6");
+      } finally {
+        this.disabled = false;
+        this.textContent = "Začít objednávku 2";
+      }
+    });
+
+
+    // Krok 6 -> Krok 7
+    document.getElementById("btn-step-6").addEventListener("click", async function () {
+      this.disabled = true;
+      await saveStepCompleted(6);
+      this.disabled = false;
+      showScreen("view-step-7");
+    });
+
+
+    // Krok 7 -> Krok 8
+    document.getElementById("btn-step-7").addEventListener("click", async function () {
+      this.disabled = true;
+      await saveStepCompleted(7);
+      this.disabled = false;
+      showScreen("view-step-8");
+    });
+
+
+    /* =========================================================================
+       8. KROK 8: OVĚŘENÍ CENY KOŠÍKU 2 (231 NEBO VIP 234)
+    ========================================================================= */
+    const inputPrice2 = document.getElementById("input-price-2");
+    const price2Msg = document.getElementById("price2-msg");
+    const price2VipNote = document.getElementById("price2-vip-note");
+    const price2ErrBox = document.getElementById("price2-error-box");
+    const btnStep8 = document.getElementById("btn-step-8");
+
+
+    inputPrice2.addEventListener("input", () => {
+      const clean = inputPrice2.value.replace(/[^0-9]/g, "");
+      if (inputPrice2.value !== clean) {
+        inputPrice2.value = clean;
+      }
+
+
+      inputPrice2.classList.remove("input-error", "input-valid");
+      price2VipNote.classList.add("hidden");
+      price2ErrBox.classList.add("hidden");
+      btnStep8.classList.add("hidden");
+      order2UsedVip = false;
+
+
+      if (clean.length === 0) {
+        price2Msg.className = "field-msg neutral";
+        price2Msg.textContent = "Zadejte cenu z košíku";
+      } else if (clean.length < 3) {
+        price2Msg.className = "field-msg neutral";
+        price2Msg.textContent = "Pokračujte v psaní...";
+      } else if (clean === "250" || clean === "234") {
+        inputPrice2.classList.add("input-valid");
+        price2Msg.className = "field-msg success";
+        price2Msg.textContent = "✓ V košíku máte správné produkty za správnou cenu. Můžete pokračovat.";
+        if (clean === "234") {
+          order2UsedVip = true;
+          price2VipNote.classList.remove("hidden");
+        }
+        btnStep8.classList.remove("hidden");
+      } else {
+        inputPrice2.classList.add("input-error");
+        price2Msg.className = "field-msg error";
+        price2Msg.textContent = "";
+        price2ErrBox.classList.remove("hidden");
+      }
+    });
+
+
+    btnStep8.addEventListener("click", async function () {
+      this.disabled = true;
+      await saveStepCompleted(8, { objednavka2_vip_ucet: order2UsedVip });
+      this.disabled = false;
+      showScreen("view-step-9");
+    });
+
+
+    /* =========================================================================
+       9. KROK 9: VALIDACE FORMULÁŘE OBJEDNÁVKY 2 A DOKONČENÍ
+    ========================================================================= */
+    const fName = document.getElementById("f-name");
+    const fPhone = document.getElementById("f-phone");
+    const phoneGroupWrap = document.getElementById("phone-group-wrap");
+    const fEmail = document.getElementById("f-email");
+    const fPickup = document.getElementById("f-pickup");
+    const fTotal = document.getElementById("f-total");
+    const fOrderNum = document.getElementById("f-ordernum");
+    const btnFinish = document.getElementById("btn-finish");
+    const submitHint = document.getElementById("form-submit-hint");
+
+
+    const touched = {
+      name: false,
+      phone: false,
+      email: false,
+      pickup: false,
+      total: false,
+      ordernum: false
+    };
+
+
+    function formatPhoneDigits(digits) {
+      return digits.replace(/(\d{3})(?=\d)/g, "$1 ");
+    }
+
+
+    function validateOrder2Form() {
+      let allValid = true;
+
+
+      // 1) Jméno a Příjmení
+      const nameVal = fName.value.trim();
+      const errName = document.getElementById("err-name");
+      if (nameVal.length > 0) {
+        fName.classList.remove("input-error");
+        fName.classList.add("input-valid");
+        errName.textContent = "";
+      } else {
+        allValid = false;
+        fName.classList.remove("input-valid");
+        if (touched.name) {
+          fName.classList.add("input-error");
+          errName.textContent = "Vyplňte prosím jméno a příjmení.";
+        }
+      }
+
+
+      // 2) Telefon (pouze čísla, přesně 9 číslic, mezera po každých 3)
+      const phoneDigits = fPhone.value.replace(/[^0-9]/g, "");
+      const errPhone = document.getElementById("err-phone");
+      if (phoneDigits.length === 9) {
+        phoneGroupWrap.classList.remove("input-error");
+        phoneGroupWrap.classList.add("input-valid");
+        errPhone.textContent = "";
+      } else {
+        allValid = false;
+        phoneGroupWrap.classList.remove("input-valid");
+        if (touched.phone) {
+          phoneGroupWrap.classList.add("input-error");
+          if (phoneDigits.length === 0) {
+            errPhone.textContent = "Zadejte telefonní číslo (9 číslic bez +420).";
+          } else if (phoneDigits.length < 9) {
+            errPhone.textContent = `Chybí číslice – zadejte přesně 9 číslic (zadáno ${phoneDigits.length}/9).`;
+          } else {
+            errPhone.textContent = `Zadáno příliš mnoho číslic (${phoneDigits.length}/9) – zadejte přesně 9 číslic bez +420.`;
+          }
+        }
+      }
+
+
+      // 3) E-mail (formát se @ a .domena)
+      const emailVal = fEmail.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      const errEmail = document.getElementById("err-email");
+      if (emailRegex.test(emailVal)) {
+        fEmail.classList.remove("input-error");
+        fEmail.classList.add("input-valid");
+        errEmail.textContent = "";
+      } else {
+        allValid = false;
+        fEmail.classList.remove("input-valid");
+        if (touched.email) {
+          fEmail.classList.add("input-error");
+          errEmail.textContent = "Zadejte platný e-mail ve správném formátu (např. jmeno@domena.cz).";
+        }
+      }
+
+
+      // 4) Výdejní místo
+      const pickupVal = fPickup.value.trim();
+      const errPickup = document.getElementById("err-pickup");
+      if (pickupVal.length > 0) {
+        fPickup.classList.remove("input-error");
+        fPickup.classList.add("input-valid");
+        errPickup.textContent = "";
+      } else {
+        allValid = false;
+        fPickup.classList.remove("input-valid");
+        if (touched.pickup) {
+          fPickup.classList.add("input-error");
+          errPickup.textContent = "Vyplňte prosím zvolené výdejní místo.";
+        }
+      }
+
+
+      // 5) Celková cena
+      const totalVal = fTotal.value.trim();
+      const errTotal = document.getElementById("err-total");
+      if (totalVal.length > 0) {
+        fTotal.classList.remove("input-error");
+        fTotal.classList.add("input-valid");
+        errTotal.textContent = "";
+      } else {
+        allValid = false;
+        fTotal.classList.remove("input-valid");
+        if (touched.total) {
+          fTotal.classList.add("input-error");
+          errTotal.textContent = "Vyplňte prosím celkovou cenu objednávky.";
+        }
+      }
+
+
+      // 6) Číslo objednávky (pouze čísla, přesně 10 číslic)
+      const orderDigits = fOrderNum.value.replace(/[^0-9]/g, "");
+      const errOrderNum = document.getElementById("err-ordernum");
+      if (orderDigits.length === 10) {
+        fOrderNum.classList.remove("input-error");
+        fOrderNum.classList.add("input-valid");
+        errOrderNum.textContent = "";
+      } else {
+        allValid = false;
+        fOrderNum.classList.remove("input-valid");
+        if (touched.ordernum) {
+          fOrderNum.classList.add("input-error");
+          if (orderDigits.length === 0) {
+            errOrderNum.textContent = "Zadejte 10místné číslo objednávky.";
+          } else if (orderDigits.length < 10) {
+            errOrderNum.textContent = `Číslo objednávky je příliš krátké – musí mít přesně 10 číslic (zadáno ${orderDigits.length}/10).`;
+          } else {
+            errOrderNum.textContent = `Číslo objednávky je příliš dlouhé – musí mít přesně 10 číslic (zadáno ${orderDigits.length}/10).`;
+          }
+        }
+      }
+
+
+      btnFinish.disabled = !allValid;
+      if (allValid) {
+        submitHint.textContent = "✓ Všechny údaje jsou v pořádku. Můžete úlohu dokončit.";
+        submitHint.style.color = "var(--ios-green)";
+        submitHint.style.fontWeight = "700";
+      } else {
+        submitHint.textContent = "Vyplňte správně všechna pole pro odemčení tlačítka Dokončit.";
+        submitHint.style.color = "var(--text-muted)";
+        submitHint.style.fontWeight = "500";
+      }
+
+
+      return allValid;
+    }
+
+
+    // Formátování telefonu při psaní (pouze čísla, max 9 číslic + automatické mezery po 3)
+    fPhone.addEventListener("input", () => {
+      touched.phone = true;
+      const rawDigits = fPhone.value.replace(/[^0-9]/g, "");
+      // Umožní vložit max 9 číslic, mezera po každých 3 (777 999 000)
+      const limited = rawDigits.slice(0, 9);
+      fPhone.value = formatPhoneDigits(limited);
+      validateOrder2Form();
+    });
+
+
+    // Číslo objednávky: nic jiného než čísla neumožní vložit
+    fOrderNum.addEventListener("input", () => {
+      touched.ordernum = true;
+      const clean = fOrderNum.value.replace(/[^0-9]/g, "");
+      if (fOrderNum.value !== clean) {
+        fOrderNum.value = clean;
+      }
+      validateOrder2Form();
+    });
+
+
+    // Ostatní pole formuláře
+    [
+      [fName, "name"],
+      [fEmail, "email"],
+      [fPickup, "pickup"],
+      [fTotal, "total"]
+    ].forEach(([el, key]) => {
+      el.addEventListener("input", () => {
+        touched[key] = true;
+        validateOrder2Form();
+      });
+      el.addEventListener("blur", () => {
+        touched[key] = true;
+        validateOrder2Form();
+      });
+    });
+
+
+    fPhone.addEventListener("blur", () => { touched.phone = true; validateOrder2Form(); });
+    fOrderNum.addEventListener("blur", () => { touched.ordernum = true; validateOrder2Form(); });
+
+
+    // Odeslání formuláře Dokončit -> zápis dat, 100 %, ignorovat_kroky: true, návrat na přehled
+    document.getElementById("order2-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      Object.keys(touched).forEach(k => touched[k] = true);
+      if (!validateOrder2Form()) return;
+
+
+      btnFinish.disabled = true;
+      btnFinish.innerHTML = '<span class="spinner white"></span> Ukládám a dokončuji...';
+
+
+      try {
+        const now = new Date().toLocaleString("cs-CZ");
+
+
+        // 1) Uložení dat formuláře Objednávky 2
+        await db.ref("objednavky/objednavka2").set({
+          jmeno_prijmeni: fName.value.trim(),
+          telefon: "+420 " + fPhone.value.trim(),
+          email: fEmail.value.trim(),
+          vydejni_misto: fPickup.value.trim(),
+          celkova_cena: fTotal.value.trim(),
+          cislo_objednavky: fOrderNum.value.trim(),
+          cas_ulozeni: now
+        });
+
+
+        // 2) Zápis dokončení kroku 9
+        await saveStepCompleted(9);
+
+
+        // 3) Zápis finálního stavu: 2. úloha splněna, 100 %, ignorovat všechny kroky
+        const finalState = {
+          denni_uloha_hotovo: true,
+          nocni_uloha_hotovo: true,
+          procenta: 100,
+          ignorovat_kroky: true,
+          cas_dokonceni: now
+        };
+        await db.ref("stav").set(finalState);
+
+
+        // 4) Překreslení dashboardu na 100 % a automatický návrat
+        renderDashboard(finalState);
+        showScreen("view-dashboard");
+      } catch (err) {
+        console.error(err);
+        alert("Nepodařilo se uložit data do databáze. Zkontrolujte připojení a zkuste to znovu.");
+        btnFinish.disabled = false;
+        btnFinish.textContent = "Dokončit";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,935 @@
+﻿/* ==========================================================================
+   iOS 27 Airy Liquid Glass Design System
+   Plně responzivní (mobile-first, optimalizováno i pro displeje od 320px)
+   ========================================================================== */
+
+
+:root {
+  --bg-base: #f2f4f9;
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-bg-strong: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(255, 255, 255, 0.95);
+  --glass-shadow: 0 12px 36px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.03);
+
+
+  --text-primary: #1c1c1e;
+  --text-secondary: #5c5c66;
+  --text-muted: #8e8e93;
+
+
+  --ios-blue: #007aff;
+  --ios-blue-hover: #0066d6;
+  --ios-blue-soft: rgba(0, 122, 255, 0.11);
+
+
+  --ios-green: #248a3d;
+  --ios-green-bright: #34c759;
+  --ios-green-soft: rgba(52, 199, 89, 0.14);
+
+
+  --ios-red: #d70015;
+  --ios-red-bright: #ff3b30;
+  --ios-red-soft: rgba(255, 59, 48, 0.11);
+
+
+  --ios-orange: #c93400;
+  --ios-orange-soft: rgba(255, 149, 0, 0.14);
+
+
+  --input-bg: rgba(118, 118, 128, 0.09);
+  --input-bg-focus: rgba(255, 255, 255, 0.96);
+  --divider: rgba(60, 60, 67, 0.12);
+
+
+  --radius-card: 26px;
+  --radius-inner: 18px;
+  --radius-input: 15px;
+  --radius-btn: 16px;
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(at 10% 8%, rgba(0, 122, 255, 0.14) 0px, transparent 50%),
+    radial-gradient(at 90% 12%, rgba(90, 200, 250, 0.16) 0px, transparent 48%),
+    radial-gradient(at 50% 92%, rgba(52, 199, 89, 0.10) 0px, transparent 55%);
+  background-attachment: fixed;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+
+.app-shell {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: max(20px, env(safe-area-inset-top)) 16px max(36px, env(safe-area-inset-bottom));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+
+/* Skrývání a plynulé přechody obrazovek */
+.view-screen {
+  display: none;
+  animation: iosSlideIn 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.view-screen.active {
+  display: block;
+}
+
+
+@keyframes iosSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+
+.shake {
+  animation: shake 0.36s ease-in-out;
+}
+
+
+/* Hlavička stránky */
+.page-header {
+  margin: 6px 4px 20px;
+}
+
+
+.step-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--ios-blue-soft);
+  color: var(--ios-blue);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+
+.page-title {
+  margin: 0;
+  font-size: clamp(24px, 6.2vw, 31px);
+  font-weight: 750;
+  letter-spacing: -0.028em;
+  line-height: 1.18;
+  color: var(--text-primary);
+}
+
+
+.page-subtitle {
+  margin: 8px 0 0;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+
+/* Hlavní skleněná karta */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(26px) saturate(180%);
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--glass-shadow);
+  padding: 22px 20px;
+  margin-bottom: 16px;
+}
+
+
+.glass-card.compact {
+  padding: 18px 18px;
+}
+
+
+/* Textové bloky */
+.body-text {
+  margin: 0 0 14px;
+  font-size: 15.5px;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+
+.body-text:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Formulářové prvky */
+.field-group {
+  margin-bottom: 18px;
+}
+
+
+.field-group:last-of-type {
+  margin-bottom: 20px;
+}
+
+
+.field-label {
+  display: block;
+  font-size: 14.5px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  line-height: 1.42;
+}
+
+
+.field-label strong {
+  font-weight: 700;
+  color: #000;
+}
+
+
+.field-example {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 3px;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.ios-input {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 15px;
+  font-family: inherit;
+  font-size: 16px; /* Zabraňuje automatickému zoomu na iOS Safari */
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--input-bg);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-input);
+  outline: none;
+  transition: all 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+
+.ios-input::placeholder {
+  color: #9e9ea7;
+  font-weight: 400;
+}
+
+
+.ios-input:focus {
+  background: var(--input-bg-focus);
+  border-color: var(--ios-blue);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.14);
+}
+
+
+.ios-input.has-toggle {
+  padding-right: 50px;
+}
+
+
+.ios-input.input-error {
+  border-color: var(--ios-red-bright);
+  background: rgba(255, 59, 48, 0.04);
+}
+
+
+.ios-input.input-valid {
+  border-color: var(--ios-green-bright);
+  background: rgba(52, 199, 89, 0.04);
+}
+
+
+/* Telefonní vstup s +420 prefixem */
+.phone-group {
+  display: flex;
+  align-items: stretch;
+  background: var(--input-bg);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-input);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+
+.phone-group:focus-within {
+  background: var(--input-bg-focus);
+  border-color: var(--ios-blue);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.14);
+}
+
+
+.phone-group.input-error {
+  border-color: var(--ios-red-bright);
+  background: rgba(255, 59, 48, 0.04);
+}
+
+
+.phone-group.input-valid {
+  border-color: var(--ios-green-bright);
+  background: rgba(52, 199, 89, 0.04);
+}
+
+
+.phone-prefix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: rgba(118, 118, 128, 0.1);
+  border-right: 1px solid var(--divider);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+
+.phone-group .ios-input {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+
+.phone-group .ios-input:focus {
+  box-shadow: none;
+  background: transparent;
+}
+
+
+/* Tlačítko oko u hesla */
+.eye-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+
+.eye-toggle:hover,
+.eye-toggle:active {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--text-primary);
+}
+
+
+.eye-toggle svg {
+  width: 21px;
+  height: 21px;
+}
+
+
+/* Tlačítka */
+.ios-btn {
+  width: 100%;
+  min-height: 52px;
+  padding: 13px 20px;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-family: inherit;
+  font-size: 16.5px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.14s ease, background 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.ios-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+
+.ios-btn-primary {
+  background: linear-gradient(180deg, #1687ff 0%, #007aff 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 122, 255, 0.28);
+}
+
+
+.ios-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #0b7df5 0%, #0066d6 100%);
+}
+
+
+.ios-btn-success {
+  background: linear-gradient(180deg, #34c759 0%, #28b04a 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(52, 199, 89, 0.28);
+}
+
+
+.ios-btn-secondary {
+  background: rgba(118, 118, 128, 0.12);
+  color: var(--text-primary);
+}
+
+
+.ios-btn-danger-outline {
+  background: var(--ios-red-soft);
+  color: var(--ios-red);
+}
+
+
+.ios-btn:disabled {
+  background: rgba(142, 142, 147, 0.26);
+  color: rgba(60, 60, 67, 0.45);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+
+/* Malé tlačítko kopírování */
+.copy-btn {
+  flex-shrink: 0;
+  padding: 6px 11px;
+  border: none;
+  border-radius: 10px;
+  background: var(--ios-blue-soft);
+  color: var(--ios-blue);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+
+.copy-btn:active {
+  transform: scale(0.95);
+}
+
+
+.copy-btn.copied {
+  background: var(--ios-green-soft);
+  color: var(--ios-green);
+}
+
+
+/* Karty úloh na dashboardu */
+.task-card {
+  background: var(--glass-bg-strong);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 22px;
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.045);
+  transition: transform 0.2s ease;
+}
+
+
+.task-card.completed {
+  background: rgba(255, 255, 255, 0.62);
+  border-color: rgba(52, 199, 89, 0.35);
+}
+
+
+.task-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+
+.task-badge {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ios-blue);
+  text-transform: uppercase;
+}
+
+
+.task-card.completed .task-badge {
+  color: var(--text-secondary);
+}
+
+
+.status-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--ios-green-soft);
+  color: var(--ios-green);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+.task-name {
+  margin: 4px 0 10px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+}
+
+
+.task-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+
+.task-meta-item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+
+.task-reward-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--divider);
+  flex-wrap: wrap;
+}
+
+
+.reward-pill {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ios-blue);
+  background: var(--ios-blue-soft);
+  padding: 6px 12px;
+  border-radius: 12px;
+}
+
+
+.reward-pill.green {
+  color: var(--ios-green);
+  background: var(--ios-green-soft);
+  font-weight: 800;
+}
+
+
+/* Progress box pod kategoriemi */
+.progress-box {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 16px 18px;
+  box-shadow: var(--glass-shadow);
+}
+
+
+.progress-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(118, 118, 128, 0.16);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #007aff, #34c759);
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.progress-text {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+
+/* Alerty a informační bubliny */
+.alert-box {
+  border-radius: var(--radius-inner);
+  padding: 14px 16px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+
+.alert-error {
+  background: var(--ios-red-soft);
+  border: 1px solid rgba(255, 59, 48, 0.25);
+  color: var(--ios-red);
+}
+
+
+.alert-warning {
+  background: var(--ios-orange-soft);
+  border: 1px solid rgba(255, 149, 0, 0.3);
+  color: #8a2c00;
+}
+
+
+.alert-success {
+  background: var(--ios-green-soft);
+  border: 1px solid rgba(52, 199, 89, 0.3);
+  color: var(--ios-green);
+}
+
+
+.alert-info {
+  background: var(--ios-blue-soft);
+  border: 1px solid rgba(0, 122, 255, 0.22);
+  color: #004999;
+}
+
+
+.field-msg {
+  font-size: 13.5px;
+  margin-top: 7px;
+  line-height: 1.42;
+  min-height: 18px;
+}
+
+
+.field-msg.neutral {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+
+.field-msg.error {
+  color: var(--ios-red);
+  font-weight: 500;
+}
+
+
+.field-msg.success {
+  color: var(--ios-green);
+  font-weight: 700;
+}
+
+
+/* Seznam produktů */
+.product-list {
+  list-style: none;
+  margin: 14px 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.product-item {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(60, 60, 67, 0.1);
+  border-radius: 16px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+
+.product-item-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+
+.product-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--ios-blue-soft);
+  color: var(--ios-blue);
+  font-size: 13px;
+  font-weight: 750;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+
+.product-name {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+
+/* Karty s návody pro Objednávku 2 */
+.guide-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(60, 60, 67, 0.1);
+  border-radius: 18px;
+  padding: 15px 16px;
+  margin-bottom: 12px;
+}
+
+
+.guide-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 9px;
+}
+
+
+.guide-title {
+  font-size: 15px;
+  font-weight: 750;
+  color: var(--text-primary);
+}
+
+
+.guide-body {
+  font-size: 14.2px;
+  color: var(--text-primary);
+  line-height: 1.52;
+}
+
+
+.guide-body p {
+  margin: 0 0 8px;
+}
+
+
+.guide-body p:last-child {
+  margin-bottom: 0;
+}
+
+
+.filter-grid {
+  background: rgba(118, 118, 128, 0.07);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 8px 0;
+  display: grid;
+  gap: 4px;
+  font-size: 13.8px;
+}
+
+
+.breadcrumb-pill {
+  display: block;
+  background: rgba(0, 122, 255, 0.08);
+  color: #004da3;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin: 6px 0 8px;
+  word-break: break-word;
+}
+
+
+.exact-hint {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(0, 122, 255, 0.09);
+  border: 1px dashed rgba(0, 122, 255, 0.35);
+  color: #004999;
+  font-size: 13.8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+
+/* Klíč-hodnota řádky (Objednávka 1 údaje, Admin přehled) */
+.kv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 14px 0 18px;
+}
+
+
+.kv-row {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(60, 60, 67, 0.1);
+  border-radius: 15px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+
+.kv-content {
+  min-width: 0;
+}
+
+
+.kv-key {
+  font-size: 12.5px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+
+.kv-val {
+  font-size: 15.5px;
+  font-weight: 650;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+
+/* Dělící čára */
+.ios-divider {
+  border: none;
+  height: 1px;
+  background: var(--divider);
+  margin: 22px 0;
+}
+
+
+/* Loading spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(0, 122, 255, 0.25);
+  border-top-color: var(--ios-blue);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+
+.spinner.white {
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+}
+
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+.loading-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+
+.hidden {
+  display: none !important;
+}
+
+
+/* Responsivní doladění pro nejmenší mobily (do 360px) */
+@media (max-width: 380px) {
+  .app-shell {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .glass-card {
+    padding: 18px 14px;
+    border-radius: 22px;
+  }
+  .task-card {
+    padding: 15px 14px;
+  }
+  .product-item,
+  .kv-row {
+    padding: 11px 12px;
+  }
+}
